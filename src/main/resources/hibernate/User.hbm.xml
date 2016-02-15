@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.joe.database.persistant.User" table="user" catalog="my_test_schema">
+        <id name="userId" type="java.lang.Integer">
+            <column name="USER_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="email" type="java.lang.String">
+            <column name="EMAIL" length="50" not-null="true" />
+        </property>
+        <property name="firstName" type="java.lang.String">
+            <column name="FIRST_NAME" length="20" />
+        </property>
+        <property name="lastName" type="java.lang.String">
+            <column name="LAST_NAME" length="20" />
+        </property>
+        <property name="addressLine1" type="java.lang.String">
+            <column name="ADDRESS_LINE1" length="100" />
+        </property>
+        <property name="addressLine2" type="java.lang.String">
+            <column name="ADDRESS_LINE2" length="100" />
+        </property>
+        <property name="addressLine3" type="java.lang.String">
+            <column name="ADDRESS_LINE3" length="100" />
+        </property>
+        <property name="cityCode" type="java.lang.Integer">
+            <column name="CITY_CODE" />
+        </property>
+        <property name="stateCode" type="java.lang.Integer">
+            <column name="STATE_CODE" />
+        </property>
+        <property name="countryCode" type="java.lang.Integer">
+            <column name="COUNTRY_CODE" />
+        </property>
+        <property name="pinCode" type="java.lang.String">
+            <column name="PIN_CODE" length="20" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="PASSWORD" length="100" not-null="true" />
+        </property>
+        <property name="roleId" type="java.lang.Integer">
+            <column name="ROLE_ID" />
+        </property>
+        <property name="active" type="java.lang.String">
+            <column name="ACTIVE" length="1" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
