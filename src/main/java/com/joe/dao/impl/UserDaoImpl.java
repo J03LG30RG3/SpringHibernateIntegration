@@ -6,13 +6,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.joe.dao.UserDao;
 import com.joe.database.persistant.User;
-import com.joe.database.sessionFactory.hibernate.HibernateSessionFactory;
 
 /**
  * A data access object (DAO) providing persistence and search support for User
@@ -25,12 +25,13 @@ import com.joe.database.sessionFactory.hibernate.HibernateSessionFactory;
  * @see com.joe.database.persistant.User
  * @author MyEclipse Persistence Tools
  */
-@SuppressWarnings({ "static-access", "rawtypes" })
-@Transactional
+@SuppressWarnings({"rawtypes" })
+@Repository
 public class UserDaoImpl implements UserDao {
 	private static final Log log = LogFactory.getLog(UserDaoImpl.class);
 
-	HibernateSessionFactory hibernateSessionFactory;
+	@Autowired
+	SessionFactory sessionFactory;
 
 	// property constants
 	public static final String EMAIL = "email";
@@ -50,7 +51,7 @@ public class UserDaoImpl implements UserDao {
 	public void save(User user) {
 		log.debug("saving User instance");
 		try {
-			getHibernateSessionFactory().getSession().save(user);
+			sessionFactory.getCurrentSession().save(user);
 			log.debug("save successful");
 		} catch (RuntimeException re) {
 			log.error("save failed", re);
@@ -61,7 +62,7 @@ public class UserDaoImpl implements UserDao {
 	public void delete(User user) {
 		log.debug("deleting User instance");
 		try {
-			getHibernateSessionFactory().getSession().delete(user);
+			sessionFactory.getCurrentSession().delete(user);
 			log.debug("delete successful");
 		} catch (RuntimeException re) {
 			log.error("delete failed", re);
@@ -72,7 +73,7 @@ public class UserDaoImpl implements UserDao {
 	public User findById(Integer id) {
 		log.debug("getting User instance with id: " + id);
 		try {
-			User instance = (User) getHibernateSessionFactory().getSession()
+			User instance = (User) sessionFactory.getCurrentSession()
 					.get("com.joe.database.persistant.User", id);
 			return instance;
 		} catch (RuntimeException re) {
@@ -84,7 +85,7 @@ public class UserDaoImpl implements UserDao {
 	public List findByExample(User instance) {
 		log.debug("finding User instance by example");
 		try {
-			List results = getHibernateSessionFactory().getSession()
+			List results = sessionFactory.getCurrentSession()
 					.createCriteria("com.joe.database.persistant.User")
 					.add(Example.create(instance)).list();
 			return results;
@@ -100,7 +101,7 @@ public class UserDaoImpl implements UserDao {
 		try {
 			String queryString = "from User as model where model."
 					+ propertyName + "= ?";
-			Query queryObject = getHibernateSessionFactory().getSession()
+			Query queryObject = sessionFactory.getCurrentSession()
 					.createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
@@ -166,7 +167,7 @@ public class UserDaoImpl implements UserDao {
 		log.debug("finding all User instances");
 		try {
 			String queryString = "from User";
-			Query queryObject = getHibernateSessionFactory().getSession()
+			Query queryObject = sessionFactory.getCurrentSession()
 					.createQuery(queryString);
 			return queryObject.list();
 		} catch (RuntimeException re) {
@@ -178,7 +179,7 @@ public class UserDaoImpl implements UserDao {
 	public User merge(User detachedInstance) {
 		log.debug("merging User instance");
 		try {
-			User result = (User) getHibernateSessionFactory().getSession()
+			User result = (User) sessionFactory.getCurrentSession()
 					.merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
@@ -191,7 +192,7 @@ public class UserDaoImpl implements UserDao {
 	public void attachDirty(User instance) {
 		log.debug("attaching dirty User instance");
 		try {
-			getHibernateSessionFactory().getSession().saveOrUpdate(instance);
+			sessionFactory.getCurrentSession().saveOrUpdate(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -203,22 +204,13 @@ public class UserDaoImpl implements UserDao {
 	public void attachClean(User instance) {
 		log.debug("attaching clean User instance");
 		try {
-			getHibernateSessionFactory().getSession().lock(instance,
+			sessionFactory.getCurrentSession().lock(instance,
 					LockMode.NONE);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
 			throw re;
 		}
-	}
-
-	public HibernateSessionFactory getHibernateSessionFactory() {
-		return hibernateSessionFactory;
-	}
-
-	public void setHibernateSessionFactory(
-			HibernateSessionFactory hibernateSessionFactory) {
-		this.hibernateSessionFactory = hibernateSessionFactory;
 	}
 
 }

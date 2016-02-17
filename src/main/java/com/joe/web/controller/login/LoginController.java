@@ -43,7 +43,7 @@ public class LoginController {
 		if (result.hasErrors()) {
 			return "login/login";
 		} else {
-			loginServiceImpl.validateUser(login.getUserName());
+			loginServiceImpl.validateLogin(login.getUserName());
 		}
 		return "login/login";
 	}
