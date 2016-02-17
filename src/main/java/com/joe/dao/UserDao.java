@@ -2,12 +2,9 @@ package com.joe.dao;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import com.joe.database.persistant.User;
 
 @SuppressWarnings("rawtypes")
-@Transactional
 public interface UserDao {
 	
 

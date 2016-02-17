@@ -15,6 +15,7 @@ public class LoginValidator implements Validator{
 		return Login.class.equals(clazz);
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void validate(Object target, Errors errors) {
 		Login login = (Login) target;
