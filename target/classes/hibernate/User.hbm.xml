@@ -6,7 +6,7 @@
     <class name="com.joe.database.persistant.User" table="user" catalog="my_test_schema">
         <id name="userId" type="java.lang.Integer">
             <column name="USER_ID" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
         <property name="email" type="java.lang.String">
             <column name="EMAIL" length="50" not-null="true" />
@@ -45,7 +45,7 @@
             <column name="ROLE_ID" />
         </property>
         <property name="active" type="java.lang.String">
-            <column name="ACTIVE" length="1" not-null="true"/>
+            <column name="ACTIVE" length="1" default="N"/>
         </property>
     </class>
 </hibernate-mapping>

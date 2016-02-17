@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Columns;
+
 @Entity
 @Table(name="USER")
 public class User implements java.io.Serializable {
@@ -17,7 +19,7 @@ public class User implements java.io.Serializable {
 	private static final long serialVersionUID = -2741991672236462430L;
 	@Id
 	@Column(name="USER_ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	Integer userId;
 	String email; 
 	String firstName;
